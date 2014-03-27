@@ -66,9 +66,9 @@ boolean DS18B20::readSensor(int seconds)
 int DS18B20::toFahrenheit(byte tempMSB, byte tempLSB)
 {
     tC16 = (tempMSB << 8) + tempLSB;
-    _tF160 = tC16 * 18;
-    tF10 = _tF160 / 16;
-    if (_tF160 % 16 >= 8) tF10++;       //round up to the next tenth if needed
+    long tF160 = (long)tC16 * 18L;      //160 times the temp in deg F (but without the 32 deg offset)
+    tF10 = tF160 / 16L;
+    if (tF160 % 16 >= 8) tF10++;        //round up to the next tenth if needed
     tF10 = tF10 + 320;                  //add in the offset (*10)
     return tF10;
 }

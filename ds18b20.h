@@ -31,6 +31,5 @@ class DS18B20 : public OneWire
         int toFahrenheit(byte tempMSB, byte tempLSB);
         boolean _canRead;
         uint8_t _dsData[12];
-        int _tF160;       //160 times the temp in deg F (but without the 32 deg offset)
         movingAvg _avg;
 };
