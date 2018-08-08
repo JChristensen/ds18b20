@@ -16,20 +16,26 @@
 
 #include "ds18b20.h"
 
-//constructor
-DS18B20::DS18B20(uint8_t pin) : OneWire(pin)
+// constructor
+DS18B20::DS18B20(uint8_t pin) : OneWire(pin), m_avg(6)
 {
-    _canRead = false;
+    m_canRead = false;
     dataValid = false;
 }
 
-//call readSensor() periodically, e.g. once per second.
-//"seconds" parameter is the seconds derived from the current time.
-//starts the temperature conversion on seconds = 05, 15, 25, etc.
-//reads the temperature value on seconds = 06, 16, 26, etc.
-//returns true if successful, false for CRC error.
+// initialization
+void DS18B20::begin()
+{
+    m_avg.begin();
+}
+
+// call readSensor() periodically, e.g. once per second.
+// "seconds" parameter is the seconds derived from the current time.
+// starts the temperature conversion on seconds = 05, 15, 25, etc.
+// reads the temperature value on seconds = 06, 16, 26, etc.
+// returns true if successful, false for CRC error.
 //
-boolean DS18B20::readSensor(int seconds)
+bool DS18B20::readSensor(int seconds)
 {
     switch (seconds % 10) {
 
@@ -37,21 +43,21 @@ boolean DS18B20::readSensor(int seconds)
         reset();
         skip();
         write(0x44);
-        _canRead = true;        //ok to read now
+        m_canRead = true;       //ok to read now
         break;
     
     case 6:                     //read temperature
-        if (_canRead) {         //don't attempt to read if a conversion hasn't been started
+        if (m_canRead) {        //don't attempt to read if a conversion hasn't been started
             reset();
             skip();
             write(0xBE);        //read scratchpad
         
             for ( int i=0; i<9; i++) {    //read 9 bytes
-                _dsData[i] = read();
+                m_dsData[i] = read();
             }
-            if (OneWire::crc8(_dsData, 8) == _dsData[8]) {
+            if (OneWire::crc8(m_dsData, 8) == m_dsData[8]) {
                 dataValid = true;
-                avgTF10 = _avg.reading( toFahrenheit(_dsData[1], _dsData[0]) );
+                avgTF10 = m_avg.reading( toFahrenheit(m_dsData[1], m_dsData[0]) );
             }
             else {
                 return false;    //CRC error
