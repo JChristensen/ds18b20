@@ -1,11 +1,7 @@
-ReadMe file for Arduino DS18B20 Library v1.0
-https://github.com/JChristensen/DS18B20
-Jack Christensen Dec 2012
-
-This work is licensed under the Creative Commons Attribution-ShareAlike 3.0
-Unported License. To view a copy of this license, visit
-http://creativecommons.org/licenses/by-sa/3.0/ or send a letter to Creative
-Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
+ReadMe file for Arduino ds18b20 Library
+https://github.com/JChristensen/ds18b20
+Copyright (C) 2010-2023 by Jack Christensen and licensed under
+GNU GPL v3.0, https://www.gnu.org/licenses/gpl.html
 
 ================================================================================
 Arduino library to support the Maxim Integrated DS18B20 temperature sensor.

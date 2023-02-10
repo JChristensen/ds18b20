@@ -1,18 +1,7 @@
-/*----------------------------------------------------------------------*
- * Arduino ds18b20 Library v1.0                                         *
- * Jack Christensen Dec 2010                                            *
- *                                                                      *
- * A basic library for the Maxim Integrated DS18B20 temperature sensor  *
- * that inherits the OneWire class and also uses my movingAvg library   *
- * to hide the associated details from the user and provide             *
- * straightforward methods and properties for the sensor.               *
- *                                                                      *
- * This work is licensed under the Creative Commons Attribution-        *
- * ShareAlike 3.0 Unported License. To view a copy of this license,     *
- * visit http://creativecommons.org/licenses/by-sa/3.0/ or send a       *
- * letter to Creative Commons, 171 Second Street, Suite 300,            *
- * San Francisco, California, 94105, USA.                               *
- *----------------------------------------------------------------------*/
+// Arduino ds18b20 Library
+// https://github.com/JChristensen/ds18b20
+// Copyright (C) 2010-2023 by Jack Christensen and licensed under
+// GNU GPL v3.0, https://www.gnu.org/licenses/gpl.html
 
 #include "ds18b20.h"
 
@@ -45,13 +34,13 @@ bool DS18B20::readSensor(int seconds)
         write(0x44);
         m_canRead = true;       //ok to read now
         break;
-    
+
     case 6:                     //read temperature
         if (m_canRead) {        //don't attempt to read if a conversion hasn't been started
             reset();
             skip();
             write(0xBE);        //read scratchpad
-        
+
             for ( int i=0; i<9; i++) {    //read 9 bytes
                 m_dsData[i] = read();
             }
