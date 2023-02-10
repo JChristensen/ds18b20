@@ -33,5 +33,5 @@ class DS18B20 : public OneWire
         int toFahrenheit(byte tempMSB, byte tempLSB);
         bool m_canRead;
         uint8_t m_dsData[12];
-        movingAvg m_avg;
+        movingAvg m_avg{6};
 };
